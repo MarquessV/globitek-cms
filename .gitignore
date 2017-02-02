@@ -1,4 +1,4 @@
-i*.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 ._*
@@ -19,3 +19,4 @@ local.properties
 .classpath
 .settings/
 .loadpath
+private/*
