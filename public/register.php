@@ -1,7 +1,6 @@
 <?php
   require_once('../private/initialize.php');
   include '../private/validate_functions.php';
-  //include '../private/functions.php';
 
   // Set default values for all variables the page needs.
   
@@ -45,7 +44,6 @@
         if($result) {
             db_close($db);
             header('Location: registration_success.php');
-            // TODO redirect to success page
         }
         else {
             echo db_error($db);
@@ -55,38 +53,41 @@
     }
   }
 ?>
-
 <?php $page_title = 'Register'; ?>
 <?php include(SHARED_PATH . '/header.php'); ?>
-
 <div id="main-content">
   <h1>Register</h1>
   <p>Register to become a Globitek Partner.</p>
-
   <?php
+    if($firsterror || $lasterror || $emailerror || $usererror) {
+        echo "<ul>\n";
+    }
     if($firsterror) {
-        echo "Invalid first name provided (must be between 2 and 255 alphabetic characters). <br>";
+        echo "<li>Invalid first name provided (2-255 alphabetic or -, ., ' characters).</li>\n";
     }
     if($lasterror) {
-        echo "Invalid last name provided (must be between 2 and 255 alphabetic characters). <br>";
+        echo "<li>Invalid last name provided (2-255 alphabetic or -, ., ' characters). </li>\n";
     }
     if($emailerror) {
-        echo "Invalid email address. <br>";
+        echo "<li>Invalid email address. </li>\n";
     }
     if($usererror) {
-        echo "Invalid username (must be between 8 and 255 alphanumeric characters). <br>";
+        echo "<li>Invalid username (8-255 alphanumeric or _ characters). </li>\n";
+    }
+    if($firsterror || $lasterror || $emailerror || $usererror) {
+        echo "</ul>\n";
     }
   ?>
 
   <form action="" method="post">
     First name: <br>
-    <input type="text" name="firstname" value="<?php echo $firstname ?>"> <br>
+    <input type="text" name="firstname" value="<?php echo htmlspecialchars($firstname) ?>"> <br>
     Last name: <br>
-    <input type="text" name="lastname" value="<?php echo $lastname ?>"> <br>
+    <input type="text" name="lastname" value="<?php echo htmlspecialchars($lastname) ?>"> <br>
     Email: <br>
-    <input type="text" name="email" value="<?php echo $email ?>"> <br>
+    <input type="text" name="email" value="<?php echo htmlspecialchars($email) ?>"> <br>
     Username: <br>
-    <input type="text" name="username" value="<?php echo $username ?>"> <br>
+    <input type="text" name="username" value="<?php echo htmlspecialchars($username) ?>"> <br>
     <br>
     <input type="submit" value="Submit"> <br>
   </form>
