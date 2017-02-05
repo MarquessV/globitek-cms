@@ -7,19 +7,22 @@
   
   $username=$firstname=$lastname=$email="";
   $firsterror=$lasterror=$emailerror=$usererror=False;
+  $namelength = array('min' => 2, 'max' => 255);
+  $userlength = array('min' => 8, 'max' => 255);
+  $namesymbols = array('-',',','.','\'');
 
   // if this is a POST request, process the form
   // Hint: private/functions.php can help
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['firstname'])) {
         $firstname=$_POST['firstname'];
-        if(!has_length($firstname, array('min' => 1, 'max' => 25))) {
+        if(!has_length($firstname, $namelength) || !valid_symbols($firstname, $namesymbols)) {
             $firsterror=True; 
         }
     }
     if(isset($_POST['lastname'])) {
         $lastname=$_POST['lastname'];
-        if(!has_length($lastname, array('min' => 1, 'max' => 25))) {
+        if(!has_length($lastname, $namelength) || !valid_symbols($lastname, $namesymbols)) {
             $lasterror=True; 
         }
     }
@@ -31,7 +34,7 @@
     }
     if(isset($_POST['username'])) {
         $username=$_POST['username'];
-        if(!has_length($username, array('min' => 1, 'max' => 25))) {
+        if(!has_length($username, $userlength) || !valid_user($username)) {
             $usererror=True; 
         }
     }
@@ -41,6 +44,7 @@
         $result = db_query($db, $sql);
         if($result) {
             db_close($db);
+            header('Location: registration_success.php');
             // TODO redirect to success page
         }
         else {
@@ -61,16 +65,16 @@
 
   <?php
     if($firsterror) {
-        echo "Invalid firstname <br>";
+        echo "Invalid first name provided (must be between 2 and 255 alphabetic characters). <br>";
     }
     if($lasterror) {
-        echo "Invalid lastname <br>";
+        echo "Invalid last name provided (must be between 2 and 255 alphabetic characters). <br>";
     }
     if($emailerror) {
-        echo "Invalid email <br>";
+        echo "Invalid email address. <br>";
     }
     if($usererror) {
-        echo "Invalid username <br>";
+        echo "Invalid username (must be between 8 and 255 alphanumeric characters). <br>";
     }
   ?>
 
