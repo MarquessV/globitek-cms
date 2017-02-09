@@ -19,4 +19,4 @@ local.properties
 .classpath
 .settings/
 .loadpath
-private/*
+private/db_credentials.php
